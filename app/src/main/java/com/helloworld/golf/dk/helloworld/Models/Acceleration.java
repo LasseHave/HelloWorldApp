@@ -1,46 +1,44 @@
-package com.helloworld.golf.dk.helloworld;
-
-import java.util.Comparator;
+package com.helloworld.golf.dk.helloworld.Models;
 
 public class Acceleration{
-	private double x;
-	private double y;
-	private double z;
-	private long timestamp;
-	
-	public Acceleration(double x,double y, double z, long timestamp){
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		this.timestamp = timestamp;
+	private float x;
+	private float y;
+	private float z;
+
+	public Acceleration(float v, float v1, float v2) {
+		// empty Ctor
 	}
-	public double getX() {
+
+	public float getX() {
 		return x;
 	}
-	public void setX(double x) {
+	public void setX(float x) {
 		this.x = x;
 	}
-	public double getY() {
+	public float getY() {
 		return y;
 	}
-	public void setY(double y) {
+	public void setY(float y) {
 		this.y = y;
 	}
-	public double getZ() {
+	public float getZ() {
 		return z;
 	}
-	public void setZ(double z) {
+	public void setZ(float z) {
 		this.z = z;
-	}
-	public long getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(long timestamp) {
-		this.timestamp = timestamp;
 	}
 	@Override
 	public String toString(){
-		return "X: "+x+" Y: "+y+" Z: "+z + ". At time: " + timestamp;
+		return "X: "+x+" Y: "+y+" Z: "+z;
 	}
+
+	public double[] toDoubleArray(){
+        double[] output = new double[3];
+        output[0] = (double) getX();
+        output[1] = (double) getY();
+        output[2] = (double) getZ();
+
+        return output;
+    }
 }
 

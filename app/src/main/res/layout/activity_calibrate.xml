@@ -6,4 +6,25 @@
     android:layout_height="match_parent"
     tools:context="com.helloworld.golf.dk.helloworld.Calibrate">
 
+    <Button
+        android:id="@+id/activity_calibrate_save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Calibration"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/activity_calibrate_start_btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Calibration"
+        app:layout_constraintBottom_toTopOf="@+id/activity_calibrate_save_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
