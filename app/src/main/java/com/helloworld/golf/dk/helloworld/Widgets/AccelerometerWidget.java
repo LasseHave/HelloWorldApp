@@ -1,4 +1,4 @@
-package com.helloworld.golf.dk.helloworld;
+/*package com.helloworld.golf.dk.helloworld;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,10 +20,10 @@ public class AccelerometerWidget implements SensorEventListener {
     private String y;
     private String z;
 
-    public AccelerometerWidget(AppCompatActivity activity) {
+    public AccelerometerWidget() {
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        senSensorManager.registerListener(activity, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     private void initAccelerometer() {
@@ -54,3 +54,4 @@ public class AccelerometerWidget implements SensorEventListener {
         senSensorManager.registerListener(activity, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 }
+*/
