@@ -15,6 +15,8 @@ public class start extends AppCompatActivity {
         TextView hurry_heading = (TextView) findViewById(R.id.activity_start_hurry_heading);
         TextView hurry = (TextView) findViewById(R.id.activity_start_hurry_value);
 
+        Button stopActivity = (Button) findViewById(R.id.activity_start_activity_stop_btn);
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);

@@ -37,4 +37,14 @@
         android:text="No.. You are in good time"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="228dp" />
+
+    <Button
+        android:id="@+id/activity_start_activity_stop_btn"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:text="Button"
+        tools:layout_editor_absoluteX="147dp"
+        tools:layout_editor_absoluteY="424dp" />
 </android.support.constraint.ConstraintLayout>
