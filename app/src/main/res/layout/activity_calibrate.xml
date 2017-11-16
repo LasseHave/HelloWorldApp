@@ -10,6 +10,7 @@
         android:id="@+id/activity_calibrate_save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/holo_orange_dark"
         android:text="Save Calibration"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,9 +20,12 @@
 
     <Button
         android:id="@+id/activity_calibrate_start_btn2"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
         android:text="Start Calibration"
+        android:textColorLink="@android:color/holo_green_dark"
         app:layout_constraintBottom_toTopOf="@+id/activity_calibrate_save_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -37,4 +41,14 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/activity_calibrate_stop_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop Calibration"
+        app:layout_constraintBottom_toTopOf="@+id/activity_calibrate_save_btn"
+        app:layout_constraintTop_toBottomOf="@+id/activity_calibrate_start_btn2"
+        tools:layout_editor_absoluteX="116dp" />
 </android.support.constraint.ConstraintLayout>

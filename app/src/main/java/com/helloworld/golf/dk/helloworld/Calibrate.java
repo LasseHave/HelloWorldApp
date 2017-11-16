@@ -35,6 +35,7 @@ public class Calibrate extends AppCompatActivity {
 
         Button start = (Button) findViewById(R.id.activity_calibrate_start_btn2);
         Button save = (Button) findViewById(R.id.activity_calibrate_save_btn);
+        Button stop = (Button) findViewById(R.id.activity_calibrate_stop_button);
         dropdown = (Spinner)findViewById(R.id.calibrate_dropdown);
         items = new String[]{"walking", "running", "driving"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -53,6 +54,12 @@ public class Calibrate extends AppCompatActivity {
             }
         });
 
+        stop.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                stopClick();
+            }
+        });
+
         save.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 saveClick();
@@ -68,5 +75,9 @@ public class Calibrate extends AppCompatActivity {
         fileAggregator.createArff(items[dropdown.getSelectedItemPosition()], this);
         senAccelerometer.startSensors();
 
+    }
+
+    private void stopClick() {
+        senAccelerometer.stopSensors();
     }
 }

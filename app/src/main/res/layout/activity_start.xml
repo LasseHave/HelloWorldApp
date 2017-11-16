@@ -6,4 +6,35 @@
     android:layout_height="match_parent"
     tools:context="com.helloworld.golf.dk.helloworld.start">
 
+    <TextView
+        android:id="@+id/activity_start_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="What you are currently doing!"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="108dp" />
+
+    <TextView
+        android:id="@+id/activity_start_current_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="walking"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="144dp" />
+
+    <TextView
+        android:id="@+id/activity_start_hurry_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you need to hurry?"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="192dp" />
+
+    <TextView
+        android:id="@+id/activity_start_hurry_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No.. You are in good time"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="228dp" />
 </android.support.constraint.ConstraintLayout>
