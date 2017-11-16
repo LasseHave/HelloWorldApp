@@ -23,20 +23,7 @@ public class FileAggregator {
     private Handler guiHandler;
 
     public FileAggregator() {
-        if(!externalStorageWriteable());
-        else {
-            resultsFile = new File(Environment.getExternalStorageDirectory().getPath(), "File_Results.txt");
-        }
     }
-
-    public boolean externalStorageWriteable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
 
     public void saveExternalFile(final Context context) {
         guiHandler = new Handler();
