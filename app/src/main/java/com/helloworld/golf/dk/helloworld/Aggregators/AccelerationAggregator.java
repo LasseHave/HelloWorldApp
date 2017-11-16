@@ -40,11 +40,10 @@ public class AccelerationAggregator {
             StatisticsData tempResult = new StatisticsData(
                     (float) statistics.getMin(),
                     (float) statistics.getMax(),
+                    (float) statistics.getMean(),
                     (float) statistics.getStandardDeviation());
             results.add(tempResult);
-
         }
-
     }
 
     private double[] readyForStat(List<Acceleration> input, int index)

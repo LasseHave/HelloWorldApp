@@ -12,6 +12,8 @@ import com.helloworld.golf.dk.helloworld.Models.Acceleration;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static android.hardware.SensorManager.*;
+
 public class AccelerometerWidget implements SensorEventListener {
     SensorManager manager;
     Sensor accelerometer;
@@ -28,9 +30,16 @@ public class AccelerometerWidget implements SensorEventListener {
         gravity = new Acceleration(0.0f, 0.0f, 0.0f);
         manager = (SensorManager) this.activity.getSystemService(Context.SENSOR_SERVICE);
         accelerometer = manager.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
+
+    }
+
+    public void startSensors( ) {
         manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
 
+    public void stopSensors( ) {
+        manager.unregisterListener(this);
+    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
