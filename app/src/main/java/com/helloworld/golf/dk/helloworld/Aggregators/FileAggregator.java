@@ -53,7 +53,7 @@ public class FileAggregator {
         classes = new FastVector();
         classes.addElement("walking");
         classes.addElement("running");
-        classes.addElement("driving");
+        classes.addElement("standing");
 
         attributes.addElement(new Attribute("movementType", classes));
         data = new Instances("detectMovementType", attributes,128);

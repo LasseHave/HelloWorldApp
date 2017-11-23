@@ -31,6 +31,10 @@ public class AccelerationAggregator {
         return results;
     }
 
+    public void resetResults() {
+        results.clear();
+    }
+
     public void processData(List<Acceleration> dataToProcess) {
 
         for(int i = 0; i < 3; i++) { // Calc stat for each acceleration axis

@@ -41,6 +41,10 @@ public class AccelerometerWidget implements SensorEventListener {
         manager.unregisterListener(this);
     }
 
+    public void reset() {
+        AccelerationAggregator.getInstance().resetResults();
+    }
+
     @Override
     public void onSensorChanged(SensorEvent event) {
         Sensor sensor = event.sensor;
@@ -95,7 +99,6 @@ public class AccelerometerWidget implements SensorEventListener {
 
         }
     }
-
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
