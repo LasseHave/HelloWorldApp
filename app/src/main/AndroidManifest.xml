@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Calibrate" />
-        <activity android:name=".start"></activity>
+        <activity android:name=".StartActivity"></activity>
     </application>
 
 </manifest>
