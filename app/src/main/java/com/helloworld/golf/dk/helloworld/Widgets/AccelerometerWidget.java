@@ -6,13 +6,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-import com.helloworld.golf.dk.helloworld.Aggregators.AccelerationAggregator;
+import com.helloworld.golf.dk.helloworld.Aggregators.MovementAggregator;
 import com.helloworld.golf.dk.helloworld.Models.Acceleration;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import static android.hardware.SensorManager.*;
 
 public class AccelerometerWidget implements SensorEventListener {
     SensorManager manager;
@@ -42,7 +40,7 @@ public class AccelerometerWidget implements SensorEventListener {
     }
 
     public void reset() {
-        AccelerationAggregator.getInstance().resetResults();
+        MovementAggregator.getInstance().resetResults();
     }
 
     @Override
@@ -82,7 +80,7 @@ public class AccelerometerWidget implements SensorEventListener {
 
                         // Min, max and standard deviation of the current window are
                         // calculated and stored
-                        AccelerationAggregator.getInstance().processData(dataToWrite);
+                        MovementAggregator.getInstance().processData(dataToWrite);
                     }
                 };
 

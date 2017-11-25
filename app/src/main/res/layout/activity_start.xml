@@ -11,32 +11,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="What you are currently doing!"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="108dp" />
+        app:layout_constraintBottom_toTopOf="@+id/activity_start_current_activity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/activity_start_current_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="walking"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="144dp" />
+        app:layout_constraintBottom_toTopOf="@+id/activity_start_hurry_heading"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_start_heading" />
 
     <TextView
         android:id="@+id/activity_start_hurry_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Do you need to hurry?"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="192dp" />
+        app:layout_constraintBottom_toTopOf="@+id/activity_start_hurry_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_start_current_activity" />
 
     <TextView
         android:id="@+id/activity_start_hurry_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No.. You are in good time"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="228dp" />
+        app:layout_constraintBottom_toTopOf="@+id/activity_start_activity_stop_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_start_hurry_heading" />
 
     <Button
         android:id="@+id/activity_start_activity_stop_btn"
@@ -45,6 +57,9 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/holo_red_dark"
         android:text="Button"
-        tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="424dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_start_hurry_value" />
 </android.support.constraint.ConstraintLayout>

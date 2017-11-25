@@ -1,8 +1,5 @@
 package com.helloworld.golf.dk.helloworld;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,14 +8,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.helloworld.golf.dk.helloworld.Aggregators.AccelerationAggregator;
 import com.helloworld.golf.dk.helloworld.Aggregators.FileAggregator;
-import com.helloworld.golf.dk.helloworld.Models.Acceleration;
-import com.helloworld.golf.dk.helloworld.Models.StatisticsData;
 import com.helloworld.golf.dk.helloworld.Widgets.AccelerometerWidget;
-
-import java.io.FileOutputStream;
-import java.util.List;
 
 public class Calibrate extends AppCompatActivity {
     private AccelerometerWidget senAccelerometer;

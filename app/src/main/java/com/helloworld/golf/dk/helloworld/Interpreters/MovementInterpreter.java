@@ -44,20 +44,34 @@ public class MovementInterpreter {
         classes.addElement("standing");
         classes.addElement("biking");
 
+        attributes.addElement(new Attribute("@@class@@", classes));
+
 
         attributes.addElement(new Attribute("movementType", classes));
+        Instances unpredicted = new Instances("TestInstances", attributes, 1);
+        unpredicted.setClassIndex(unpredicted.numAttributes() - 1);
 
         Instance data = new Instance(1.0D, new double[]{
                 statisticsData.getMin(), statisticsData.getMax(), statisticsData.getMean(), statisticsData.getStdDev()
         });
+        data.setDataset(unpredicted);
 
-
-        /*Instance ins = new Instance(4);
-        ins.setDataset(new Instances());
-        ins.setDataset();*/
         double tNum = this.classifier.classifyInstance(data);
-        //Attribute attr =
+        this.classifier.getOptions();
         int classIndex = (int) tNum;
-        return String.valueOf(classIndex);
+
+        return convertToClass(classIndex);
+    }
+
+    public String convertToClass(int input){
+
+        switch (input){
+            case 0: return "walking";
+            case 1: return "running";
+            case 2: return "standing";
+            case 3: return "biking";
+            default: return "WTF";
+        }
+
     }
 }

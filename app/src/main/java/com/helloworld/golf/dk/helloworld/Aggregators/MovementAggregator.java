@@ -7,22 +7,22 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccelerationAggregator {
+public class MovementAggregator {
 
     private List<StatisticsData> results;
     private DescriptiveStatistics statistics;
 
-    private static AccelerationAggregator singleton = new AccelerationAggregator( );
+    private static MovementAggregator singleton = new MovementAggregator( );
 
     /* A private Constructor prevents any other
      * class from instantiating.
      */
-    private AccelerationAggregator() {
+    private MovementAggregator() {
         results = new ArrayList<>();
     }
 
     /* Static 'instance' method */
-    public static AccelerationAggregator getInstance( ) {
+    public static MovementAggregator getInstance( ) {
         return singleton;
     }
 

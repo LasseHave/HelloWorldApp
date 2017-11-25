@@ -2,19 +2,15 @@ package com.helloworld.golf.dk.helloworld.Aggregators;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.helloworld.golf.dk.helloworld.Models.StatisticsData;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
@@ -77,7 +73,7 @@ public class FileAggregator {
             }
             bufferedWriter = new BufferedWriter(new FileWriter(resultsFile, true));
 
-            List<StatisticsData> results = AccelerationAggregator.getInstance().getResults();
+            List<StatisticsData> results = MovementAggregator.getInstance().getResults();
             Iterator<StatisticsData> resultsIterator = results.iterator();
 
             while (resultsIterator.hasNext()) {
