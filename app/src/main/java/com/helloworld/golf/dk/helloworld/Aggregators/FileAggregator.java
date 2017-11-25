@@ -42,7 +42,7 @@ public class FileAggregator {
     public void createArff(String className, Context context){
         thisClass = className;
 
-        resultsFile = new File(context.getExternalFilesDir(null),  "my-awesome-file-" + className +  ".arff");
+        resultsFile = new File(context.getExternalFilesDir(null),  "train-data-" + className +  ".arff");
 
         attributes = new FastVector();
 
@@ -54,6 +54,7 @@ public class FileAggregator {
         classes.addElement("walking");
         classes.addElement("running");
         classes.addElement("standing");
+        classes.addElement("biking");
 
         attributes.addElement(new Attribute("movementType", classes));
         data = new Instances("detectMovementType", attributes,128);

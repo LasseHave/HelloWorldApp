@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.helloworld.golf.dk.helloworld.Aggregators.AccelerationAggregator;
 import com.helloworld.golf.dk.helloworld.Aggregators.FileAggregator;
@@ -37,7 +38,7 @@ public class Calibrate extends AppCompatActivity {
         Button save = (Button) findViewById(R.id.activity_calibrate_save_btn);
         Button stop = (Button) findViewById(R.id.activity_calibrate_stop_button);
         dropdown = (Spinner)findViewById(R.id.calibrate_dropdown);
-        items = new String[]{"walking", "running", "standing"};
+        items = new String[]{"walking", "running", "standing", "biking"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
@@ -81,5 +82,9 @@ public class Calibrate extends AppCompatActivity {
 
     private void stopClick() {
         senAccelerometer.stopSensors();
+        senAccelerometer.reset();
+        Toast.makeText(this,
+                "Sensors stopped and reset",
+                Toast.LENGTH_SHORT).show();
     }
 }

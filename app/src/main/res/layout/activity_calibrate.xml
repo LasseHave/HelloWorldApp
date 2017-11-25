@@ -49,6 +49,8 @@
         android:layout_height="wrap_content"
         android:text="Stop Calibration"
         app:layout_constraintBottom_toTopOf="@+id/activity_calibrate_save_btn"
-        app:layout_constraintTop_toBottomOf="@+id/activity_calibrate_start_btn2"
-        tools:layout_editor_absoluteX="116dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_calibrate_start_btn2" />
 </android.support.constraint.ConstraintLayout>
