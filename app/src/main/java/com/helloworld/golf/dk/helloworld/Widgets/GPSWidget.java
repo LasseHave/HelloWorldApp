@@ -7,9 +7,27 @@ import android.hardware.SensorManager;
 
 import com.helloworld.golf.dk.helloworld.Models.Acceleration;
 
-
 public class GPSWidget implements SensorEventListener {
-    public GPSWidget(Activity activity) {
+    LocationManager locManager;
+    LocationListener li;
+    Acktivity thisAck;
 
+    public GPSWidget(Activity activity) {
+        thisAck = activity;
+        locManager=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        li = new speed();
+        locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, li);        
     }
+
+    public void onLocationChanged(Location loc) {
+        Float thespeed=loc.getSpeed();
+        Toast.makeText(thisAck ,String.valueOf(thespeed), Toast.LENGTH_LONG).show();
+    }
+    @Override
+    public void onProviderDisabled(String arg0) {}
+    @Override
+    public void onProviderEnabled(String arg0) {}
+    @Override
+    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {}
+
 }
