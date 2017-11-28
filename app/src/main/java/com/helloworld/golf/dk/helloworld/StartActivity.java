@@ -10,6 +10,7 @@ import com.helloworld.golf.dk.helloworld.Aggregators.MovementAggregator;
 import com.helloworld.golf.dk.helloworld.Interpreters.MovementInterpreter;
 import com.helloworld.golf.dk.helloworld.Models.StatisticsData;
 import com.helloworld.golf.dk.helloworld.Widgets.AccelerometerWidget;
+import com.helloworld.golf.dk.helloworld.Widgets.GPSWidget;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,6 +21,7 @@ public class StartActivity extends AppCompatActivity {
     private MovementInterpreter movementInterpreter;
     private TextView activityLabel;
     private AccelerometerWidget accelerometerWidget;
+    private GPSWidget gpsWidget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class StartActivity extends AppCompatActivity {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
+        gpsWidget = new GPSWidget(this);
         accelerometerWidget = new AccelerometerWidget(this);
         accelerometerWidget.startSensors();
 
