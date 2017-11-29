@@ -21,8 +21,8 @@ public class GPSWidget extends Service {
     private static final String TAG = "MyLocationService";
     private Location mLastLocation;
     private LocationManager mLocationManager = null;
-    private static final int LOCATION_INTERVAL = 1000;
-    private static final float LOCATION_DISTANCE = 10f;
+    private static final int LOCATION_INTERVAL = 500;
+    private static final float LOCATION_DISTANCE = 1f;
     private double speed;
     private Activity activity;
 
