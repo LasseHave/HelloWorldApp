@@ -1,9 +1,15 @@
 package com.helloworld.golf.dk.helloworld;
 
-import android.annotation.SuppressLint;
-import android.location.Location;
-import android.location.LocationManager;
+import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -46,16 +52,24 @@ public class StartActivity extends AppCompatActivity {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        askUserForPermissionToUseGps();
+    }
+
+    private void startSpeedSensing() {
         gpsWidget = new GPSWidget(this);
         accelerometerWidget = new AccelerometerWidget(this);
         accelerometerWidget.startSensors();
-
         updateActivity();
+        subscribeToSpeedUpdateEvents();
+    }
+
+    private void subscribeToSpeedUpdateEvents() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("speedUpdate"));
     }
 
     public void updateActivity() {
         final Handler handler = new Handler();
-
 
         Timer timer = new Timer();
 
@@ -71,7 +85,6 @@ public class StartActivity extends AppCompatActivity {
                             try {
                                 String identifiedClass = movementInterpreter.classify(result);
                                 updateClassText(identifiedClass);
-                                updateHurryText(String.valueOf(gpsWidget.getSpeedInKmH()));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -87,4 +100,46 @@ public class StartActivity extends AppCompatActivity {
     public void updateHurryText(String hurry){
         hurryLabel.setText(hurry);
     }
+
+    private void askUserForPermissionToUseGps() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        1);
+            }
+        } else {
+            //We have permission!
+            startSpeedSensing();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //Permission granted!!
+                    startSpeedSensing();
+                } else {
+                    //Permission denied :-(
+                }
+                return;
+            }
+        }
+    }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String speed = intent.getStringExtra("speed");
+            updateHurryText(speed);
+        }
+    };
 }
