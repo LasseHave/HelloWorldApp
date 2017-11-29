@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -18,6 +19,7 @@ import android.util.Log;
 
 public class GPSWidget extends Service {
     private static final String TAG = "MyLocationService";
+    private Location mLastLocation;
     private LocationManager mLocationManager = null;
     private static final int LOCATION_INTERVAL = 1000;
     private static final float LOCATION_DISTANCE = 10f;
@@ -30,26 +32,13 @@ public class GPSWidget extends Service {
         if (ContextCompat.checkSelfPermission(this.activity,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this.activity,
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
 
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
             } else {
-
-                // No explanation needed, we can request the permission.
-
                 ActivityCompat.requestPermissions(this.activity,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         1);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         }
 
@@ -64,7 +53,7 @@ public class GPSWidget extends Service {
     @SuppressLint("MissingPermission")
     public double getSpeedInKmH() {
         double test = speed;
-        return mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getSpeed();
+        return mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER).getSpeed();
     }
 
     public double getSpeed() {
@@ -82,17 +71,19 @@ public class GPSWidget extends Service {
         @Override
         public void onLocationChanged(Location location) {
             Log.e(TAG, "onLocationChanged: " + location);
-            if (this.mLastLocation != null)
+            if (this.mLastLocation != null) {
                 speed = Math.sqrt(
                         Math.pow(location.getLongitude() - mLastLocation.getLongitude(), 2)
                                 + Math.pow(location.getLatitude() - mLastLocation.getLatitude(), 2)
                 ) / (location.getTime() - mLastLocation.getTime());
-            //if there is speed from location
-            if (location.hasSpeed())
+                //if there is speed from location
+            }
+            if (location.hasSpeed()) {
                 //get location speed
-                speed = location.getSpeed();
-            mLastLocation.set(location);
-            speed = mLastLocation.getSpeed();
+                speed = location.getSpeed() * 3.6;
+                mLastLocation.set(location);
+                // speed = mLastLocation.getSpeed();
+            }
 
         }
 
@@ -113,7 +104,7 @@ public class GPSWidget extends Service {
     }
 
     LocationListener[] mLocationListeners = new LocationListener[]{
-            new LocationListener(LocationManager.GPS_PROVIDER)
+            new LocationListener(LocationManager.PASSIVE_PROVIDER)
     };
 
     @Override
@@ -137,7 +128,7 @@ public class GPSWidget extends Service {
 
         try {
             mLocationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
+                    LocationManager.PASSIVE_PROVIDER,
                     LOCATION_INTERVAL,
                     LOCATION_DISTANCE,
                     mLocationListeners[0]

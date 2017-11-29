@@ -68,10 +68,10 @@ public class StartActivity extends AppCompatActivity {
                         List<StatisticsData> results = MovementAggregator.getInstance().getResults();
                         if (results.size() > 0) {
                             StatisticsData result = results.get(results.size() - 1);
-                            double speed = gpsWidget.getSpeedInKmH();
                             try {
-                                 String identifiedClass = movementInterpreter.classify(result);
-                                updateText(identifiedClass, String.valueOf(speed) + String.valueOf(gpsWidget.getSpeed()));
+                                String identifiedClass = movementInterpreter.classify(result);
+                                updateClassText(identifiedClass);
+                                updateHurryText(String.valueOf(gpsWidget.getSpeedInKmH()));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -81,8 +81,10 @@ public class StartActivity extends AppCompatActivity {
             }
         }, 1000, 1000);
     }
-    public void updateText(String identifiedClass, String speed){
+    public void updateClassText(String identifiedClass){
         activityLabel.setText(identifiedClass);
-        hurryLabel.setText(speed);
+    }
+    public void updateHurryText(String hurry){
+        hurryLabel.setText(hurry);
     }
 }
