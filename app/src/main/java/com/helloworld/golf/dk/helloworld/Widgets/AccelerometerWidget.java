@@ -32,7 +32,7 @@ public class AccelerometerWidget implements SensorEventListener {
     }
 
     public void startSensors( ) {
-        manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+        manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     public void stopSensors( ) {

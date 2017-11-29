@@ -1,5 +1,8 @@
 package com.helloworld.golf.dk.helloworld;
 
+import android.annotation.SuppressLint;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +23,7 @@ import java.util.TimerTask;
 public class StartActivity extends AppCompatActivity {
     private MovementInterpreter movementInterpreter;
     private TextView activityLabel;
+    private TextView hurryLabel;
     private AccelerometerWidget accelerometerWidget;
     private GPSWidget gpsWidget;
 
@@ -31,7 +35,7 @@ public class StartActivity extends AppCompatActivity {
         TextView heading = (TextView) findViewById(R.id.activity_start_heading);
         activityLabel = (TextView) findViewById(R.id.activity_start_current_activity);
         TextView hurry_heading = (TextView) findViewById(R.id.activity_start_hurry_heading);
-        TextView hurry = (TextView) findViewById(R.id.activity_start_hurry_value);
+        hurryLabel = (TextView) findViewById(R.id.activity_start_hurry_value);
 
         Button stopActivity = (Button) findViewById(R.id.activity_start_activity_stop_btn);
 
@@ -64,10 +68,10 @@ public class StartActivity extends AppCompatActivity {
                         List<StatisticsData> results = MovementAggregator.getInstance().getResults();
                         if (results.size() > 0) {
                             StatisticsData result = results.get(results.size() - 1);
-
+                            double speed = gpsWidget.getSpeedInKmH();
                             try {
-                                String identifiedClass = movementInterpreter.classify(result);
-                                updateText(identifiedClass);
+                                 String identifiedClass = movementInterpreter.classify(result);
+                                updateText(identifiedClass, String.valueOf(speed) + String.valueOf(gpsWidget.getSpeed()));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -77,7 +81,8 @@ public class StartActivity extends AppCompatActivity {
             }
         }, 1000, 1000);
     }
-    public void updateText(String identifiedClass){
+    public void updateText(String identifiedClass, String speed){
         activityLabel.setText(identifiedClass);
+        hurryLabel.setText(speed);
     }
 }
