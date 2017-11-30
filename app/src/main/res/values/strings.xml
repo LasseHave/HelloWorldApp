@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">HelloWorld</string>
     <string name="permdesc_flashlight">I want to use your flash light</string>
+    <string name="google_maps_api_key">AIzaSyDxN4rp03cUBWaZBLQl6P90Nl2hoFPhZdQ</string>
 </resources>
