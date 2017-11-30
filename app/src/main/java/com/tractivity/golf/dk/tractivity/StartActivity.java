@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
@@ -44,7 +45,12 @@ import com.jota.autocompletelocation.AutoCompleteLocation;
 import net.steamcrafted.lineartimepicker.dialog.LinearTimePickerDialog;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -58,10 +64,12 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
     private GPSWidget gpsWidget;
     private Boolean accStarted = false;
 
-    private int remainingMinutes;
-    private int remaningDistance;
+    private double remainingMinutes;
+    private double remaningDistance;
+    private Date targetDate;
     private int targetHour = 0;
     private int targetMin = 0;
+
     private String currentTransportationMethod;
 
     private List<Polyline> polylines;
@@ -103,6 +111,10 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
                 .setButtonCallback(new LinearTimePickerDialog.ButtonCallback() {
                     @Override
                     public void onPositive(DialogInterface dialog, int hour, int minutes) {
+                        Calendar c = Calendar.getInstance();
+                        c.set(Calendar.HOUR_OF_DAY, hour);
+                        c.set(Calendar.MINUTE, minutes);
+                        targetDate = c.getTime();
                         targetHour = hour;
                         targetMin = minutes;
                     }
@@ -314,6 +326,20 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
             Toast.makeText(getApplicationContext(),"Route "+ (i+1) +": distance - "+ route.get(i).getDistanceValue()+": duration - "+ route.get(i).getDurationValue(),Toast.LENGTH_SHORT).show();
             remainingMinutes = route.get(i).getDurationValue();
             remainingMinutes = route.get(i).getDurationValue();
+
+            Timer t = new Timer();
+            t.scheduleAtFixedRate(new TimerTask() {
+
+                @Override
+                public void run() {
+                    try {
+                        calculateRemainingTime();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }, 0, 10000);
         }
 
         // Start marker
@@ -325,10 +351,45 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
         options = new MarkerOptions();
         options.position(end);
         map.addMarker(options);
+
+
     }
 
     @Override
     public void onRoutingCancelled() {
+
+    }
+
+    public void calculateRemainingTime() throws ParseException {
+        Location lastLoc = gpsWidget.getmLastLocation();
+        double lastRecSpeed = lastLoc.getSpeed() * 0.27777; //to m/s
+        remaningDistance = remaningDistance - (lastRecSpeed * 10);
+        Calendar calendar = new GregorianCalendar();
+
+        calendar.setTimeInMillis(lastLoc.getTime());
+
+        Date lastDate = new Date();
+        lastDate.setTime(lastLoc.getTime());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+        long difference = targetDate.getTime() - lastDate.getTime();
+        if(difference<0)
+        {
+            Date dateMax = simpleDateFormat.parse("24:00");
+            Date dateMin = simpleDateFormat.parse("00:00");
+            difference=(dateMax.getTime() - lastDate.getTime() )+(targetDate.getTime()-dateMin.getTime());
+        }
+
+        int hours = (int) ((difference - (1000*60*60*24)) / (1000*60*60));
+        int min = (int) (difference - (1000*60*60*24) - (1000*60*60*hours)) / (1000*60);
+
+        double targetSpeed = remainingMinutes / min;
+
+        if (targetSpeed > lastRecSpeed){
+            updateHurryText("You need to hurry!!!");
+        }
+        else{
+            updateHurryText("Right now you're fine.");
+        }
 
     }
 
