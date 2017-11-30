@@ -191,7 +191,7 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     public void updateClassText(String identifiedClass) {
-        activityLabel.setText(identifiedClass);
+        activityLabel.setText("Right now you are: " + identifiedClass);
     }
 
     public void updateHurryText(String hurry) {
