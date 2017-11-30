@@ -84,6 +84,7 @@ public class GPSWidget extends Service implements LocationListener {
     public void onLocationChanged(Location location) {
         if(location != null) {
             LocationObj myLocation = new LocationObj(location);
+            mLastLocation = location;
             this.updateSpeed(myLocation);
             broadcastSpeedChanged();
 
@@ -92,6 +93,10 @@ public class GPSWidget extends Service implements LocationListener {
 
     private void updateSpeed(LocationObj myLocation) {
         this.speed = myLocation.getSpeed();
+    }
+
+    public Location getmLastLocation() {
+        return mLastLocation;
     }
 
     @Override
