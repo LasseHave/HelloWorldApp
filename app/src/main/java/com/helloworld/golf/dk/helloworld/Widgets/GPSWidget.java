@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.helloworld.golf.dk.helloworld.Aggregators.MovementAggregator;
 import com.helloworld.golf.dk.helloworld.Models.LocationObj;
 
 
@@ -74,6 +75,7 @@ public class GPSWidget extends Service implements LocationListener {
 
     private void broadcastSpeedChanged() {
         Intent intent = new Intent("speedUpdate");
+        MovementAggregator.getInstance().lastSpeed =  this.speed;
         intent.putExtra("speed", Double.toString(this.speed));
         LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
     }
@@ -84,6 +86,7 @@ public class GPSWidget extends Service implements LocationListener {
             LocationObj myLocation = new LocationObj(location);
             this.updateSpeed(myLocation);
             broadcastSpeedChanged();
+
         }
     }
 

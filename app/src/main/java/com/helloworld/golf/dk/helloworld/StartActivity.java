@@ -32,6 +32,7 @@ public class StartActivity extends AppCompatActivity {
     private TextView hurryLabel;
     private AccelerometerWidget accelerometerWidget;
     private GPSWidget gpsWidget;
+    private boolean accStarted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,6 @@ public class StartActivity extends AppCompatActivity {
     private void startSpeedSensing() {
         gpsWidget = new GPSWidget(this);
         accelerometerWidget = new AccelerometerWidget(this);
-        accelerometerWidget.startSensors();
         updateActivity();
         subscribeToSpeedUpdateEvents();
     }
@@ -80,10 +80,12 @@ public class StartActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         List<StatisticsData> results = MovementAggregator.getInstance().getResults();
+                        List<Double> speeds = MovementAggregator.getInstance().getSpeeds();
                         if (results.size() > 0) {
                             StatisticsData result = results.get(results.size() - 1);
+                            Double speed = speeds.get(speeds.size() - 1);
                             try {
-                                String identifiedClass = movementInterpreter.classify(result);
+                                String identifiedClass = movementInterpreter.classify(result, speed);
                                 updateClassText(identifiedClass);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -138,6 +140,10 @@ public class StartActivity extends AppCompatActivity {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            if(!accStarted){
+                accelerometerWidget.startSensors();
+                accStarted = true;
+            }
             String speed = intent.getStringExtra("speed");
             updateHurryText(speed);
         }

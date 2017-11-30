@@ -29,7 +29,7 @@ public class MovementInterpreter {
         ois.close();
     }
 
-    public String classify(StatisticsData statisticsData) throws Exception {
+    public String classify(StatisticsData statisticsData, Double speed) throws Exception {
         FastVector attributes = new FastVector();
         FastVector classes = new FastVector();
 
@@ -38,6 +38,7 @@ public class MovementInterpreter {
         attributes.addElement(new Attribute("max"));
         attributes.addElement(new Attribute("mean"));
         attributes.addElement(new Attribute("stdDev"));
+        attributes.addElement(new Attribute("speed"));
 
         classes.addElement("walking");
         classes.addElement("running");
@@ -52,7 +53,7 @@ public class MovementInterpreter {
         unpredicted.setClassIndex(unpredicted.numAttributes() - 1);
 
         Instance data = new Instance(1.0D, new double[]{
-                statisticsData.getMin(), statisticsData.getMax(), statisticsData.getMean(), statisticsData.getStdDev()
+                statisticsData.getMin(), statisticsData.getMax(), statisticsData.getMean(), statisticsData.getStdDev(), speed
         });
         data.setDataset(unpredicted);
 

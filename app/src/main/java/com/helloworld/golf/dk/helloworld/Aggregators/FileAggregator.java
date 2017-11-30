@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.helloworld.golf.dk.helloworld.Models.LocationObj;
 import com.helloworld.golf.dk.helloworld.Models.StatisticsData;
 
 import java.io.BufferedWriter;
@@ -46,6 +47,7 @@ public class FileAggregator {
         attributes.addElement(new Attribute("max"));
         attributes.addElement(new Attribute("mean"));
         attributes.addElement(new Attribute("stdDev"));
+        attributes.addElement(new Attribute("speed"));
         classes = new FastVector();
         classes.addElement("walking");
         classes.addElement("running");
@@ -57,10 +59,10 @@ public class FileAggregator {
 
     }
 
-    public void addValue(StatisticsData statisticsData) {
+    public void addValue(StatisticsData statisticsData, Double speed) {
         double movementType = classes.indexOf(thisClass);
         data.add(new Instance(1.0D, new double[]{
-                statisticsData.getMin(), statisticsData.getMax(), statisticsData.getMean(), statisticsData.getStdDev(), movementType
+                statisticsData.getMin(), statisticsData.getMax(), statisticsData.getMean(), statisticsData.getStdDev(), speed, movementType
         }));
     }
 
@@ -74,11 +76,15 @@ public class FileAggregator {
             bufferedWriter = new BufferedWriter(new FileWriter(resultsFile, true));
 
             List<StatisticsData> results = MovementAggregator.getInstance().getResults();
-            Iterator<StatisticsData> resultsIterator = results.iterator();
+            List<Double> speeds = MovementAggregator.getInstance().getSpeeds();
 
-            while (resultsIterator.hasNext()) {
+            Iterator<StatisticsData> resultsIterator = results.iterator();
+            Iterator<Double> speedIterator = speeds.iterator();
+
+            while (resultsIterator.hasNext() && speedIterator.hasNext()) {
                 StatisticsData currentElement = resultsIterator.next();
-                addValue(currentElement);
+                Double currentSpeed = speedIterator.next();
+                addValue(currentElement, currentSpeed);
             }
 
             bufferedWriter.write(data.toString());

@@ -1,6 +1,8 @@
 package com.helloworld.golf.dk.helloworld.Aggregators;
 import com.helloworld.golf.dk.helloworld.Models.Acceleration;
+import com.helloworld.golf.dk.helloworld.Models.LocationObj;
 import com.helloworld.golf.dk.helloworld.Models.StatisticsData;
+import com.helloworld.golf.dk.helloworld.Widgets.GPSWidget;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
@@ -10,7 +12,10 @@ import java.util.List;
 public class MovementAggregator {
 
     private List<StatisticsData> results;
+    private List<Double> locationObjs;
     private DescriptiveStatistics statistics;
+
+    public double lastSpeed;
 
     private static MovementAggregator singleton = new MovementAggregator( );
 
@@ -19,6 +24,7 @@ public class MovementAggregator {
      */
     private MovementAggregator() {
         results = new ArrayList<>();
+        locationObjs = new ArrayList<>();
     }
 
     /* Static 'instance' method */
@@ -29,6 +35,11 @@ public class MovementAggregator {
     public List<StatisticsData> getResults() {
 
         return results;
+    }
+
+    public List<Double> getSpeeds() {
+
+        return locationObjs;
     }
 
     public void resetResults() {
@@ -47,6 +58,7 @@ public class MovementAggregator {
                     (float) statistics.getMean(),
                     (float) statistics.getStandardDeviation());
             results.add(tempResult);
+            locationObjs.add(lastSpeed);
         }
     }
 
