@@ -1,9 +1,9 @@
-package com.helloworld.golf.dk.helloworld.Interpreters;
+package com.tractivity.golf.dk.tractivity.Interpreters;
 
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import com.helloworld.golf.dk.helloworld.Models.StatisticsData;
+import com.tractivity.golf.dk.tractivity.Models.StatisticsData;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

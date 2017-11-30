@@ -1,4 +1,4 @@
-package com.helloworld.golf.dk.helloworld.Widgets;
+package com.tractivity.golf.dk.tractivity.Widgets;
 
 import android.app.Activity;
 import android.app.Service;
@@ -12,8 +12,8 @@ import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.helloworld.golf.dk.helloworld.Aggregators.MovementAggregator;
-import com.helloworld.golf.dk.helloworld.Models.LocationObj;
+import com.tractivity.golf.dk.tractivity.Aggregators.MovementAggregator;
+import com.tractivity.golf.dk.tractivity.Models.LocationObj;
 
 
 public class GPSWidget extends Service implements LocationListener {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.helloworld.golf.dk.helloworld.StartActivity">
+    tools:context="com.tractivity.golf.dk.tractivity.StartActivity">
 
     <TextView
         android:id="@+id/activity_start_heading"

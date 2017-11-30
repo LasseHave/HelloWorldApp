@@ -1,16 +1,11 @@
-package com.helloworld.golf.dk.helloworld;
+package com.tractivity.golf.dk.tractivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-
 public class MainActivity extends AppCompatActivity {
-    private TextView textView_x;
-    private TextView textView_y;
-    private TextView textView_z;
 
 
     @Override

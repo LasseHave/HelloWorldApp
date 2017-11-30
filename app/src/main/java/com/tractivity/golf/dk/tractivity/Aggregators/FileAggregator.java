@@ -1,12 +1,12 @@
-package com.helloworld.golf.dk.helloworld.Aggregators;
+package com.tractivity.golf.dk.tractivity.Aggregators;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.widget.Toast;
 
-import com.helloworld.golf.dk.helloworld.Models.LocationObj;
-import com.helloworld.golf.dk.helloworld.Models.StatisticsData;
+import com.tractivity.golf.dk.tractivity.Models.LocationObj;
+import com.tractivity.golf.dk.tractivity.Models.StatisticsData;
 
 import java.io.BufferedWriter;
 import java.io.File;

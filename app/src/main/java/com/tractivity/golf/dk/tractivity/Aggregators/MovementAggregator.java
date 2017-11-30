@@ -1,8 +1,8 @@
-package com.helloworld.golf.dk.helloworld.Aggregators;
-import com.helloworld.golf.dk.helloworld.Models.Acceleration;
-import com.helloworld.golf.dk.helloworld.Models.LocationObj;
-import com.helloworld.golf.dk.helloworld.Models.StatisticsData;
-import com.helloworld.golf.dk.helloworld.Widgets.GPSWidget;
+package com.tractivity.golf.dk.tractivity.Aggregators;
+import com.tractivity.golf.dk.tractivity.Models.Acceleration;
+import com.tractivity.golf.dk.tractivity.Models.LocationObj;
+import com.tractivity.golf.dk.tractivity.Models.StatisticsData;
+import com.tractivity.golf.dk.tractivity.Widgets.GPSWidget;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 

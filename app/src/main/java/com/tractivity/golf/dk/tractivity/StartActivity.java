@@ -1,4 +1,4 @@
-package com.helloworld.golf.dk.helloworld;
+package com.tractivity.golf.dk.tractivity;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -31,11 +31,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.helloworld.golf.dk.helloworld.Aggregators.MovementAggregator;
-import com.helloworld.golf.dk.helloworld.Interpreters.MovementInterpreter;
-import com.helloworld.golf.dk.helloworld.Models.StatisticsData;
-import com.helloworld.golf.dk.helloworld.Widgets.AccelerometerWidget;
-import com.helloworld.golf.dk.helloworld.Widgets.GPSWidget;
+import com.tractivity.golf.dk.tractivity.Aggregators.MovementAggregator;
+import com.tractivity.golf.dk.tractivity.Interpreters.MovementInterpreter;
+import com.tractivity.golf.dk.tractivity.Models.StatisticsData;
+import com.tractivity.golf.dk.tractivity.Widgets.AccelerometerWidget;
+import com.tractivity.golf.dk.tractivity.Widgets.GPSWidget;
 import com.jota.autocompletelocation.AutoCompleteLocation;
 
 import java.io.IOException;

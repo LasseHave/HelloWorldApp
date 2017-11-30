@@ -1,4 +1,4 @@
-package com.helloworld.golf.dk.helloworld;
+package com.tractivity.golf.dk.tractivity;
 
 import org.junit.Test;
 

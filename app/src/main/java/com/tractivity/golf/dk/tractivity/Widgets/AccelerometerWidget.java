@@ -1,4 +1,4 @@
-package com.helloworld.golf.dk.helloworld.Widgets;
+package com.tractivity.golf.dk.tractivity.Widgets;
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -6,8 +6,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-import com.helloworld.golf.dk.helloworld.Aggregators.MovementAggregator;
-import com.helloworld.golf.dk.helloworld.Models.Acceleration;
+import com.tractivity.golf.dk.tractivity.Aggregators.MovementAggregator;
+import com.tractivity.golf.dk.tractivity.Models.Acceleration;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;

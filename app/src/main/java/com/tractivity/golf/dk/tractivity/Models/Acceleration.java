@@ -1,4 +1,4 @@
-package com.helloworld.golf.dk.helloworld.Models;
+package com.tractivity.golf.dk.tractivity.Models;
 
 public class Acceleration{
 	private float x;

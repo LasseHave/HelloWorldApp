@@ -1,4 +1,4 @@
-package com.helloworld.golf.dk.helloworld;
+package com.tractivity.golf.dk.tractivity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.helloworld.golf.dk.helloworld.Aggregators.FileAggregator;
-import com.helloworld.golf.dk.helloworld.Widgets.AccelerometerWidget;
+import com.tractivity.golf.dk.tractivity.Aggregators.FileAggregator;
+import com.tractivity.golf.dk.tractivity.Widgets.AccelerometerWidget;
 
 public class Calibrate extends AppCompatActivity {
     private AccelerometerWidget senAccelerometer;
