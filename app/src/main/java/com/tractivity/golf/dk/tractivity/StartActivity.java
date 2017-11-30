@@ -3,15 +3,19 @@ package com.tractivity.golf.dk.tractivity;
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +30,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -38,6 +41,8 @@ import com.tractivity.golf.dk.tractivity.Widgets.AccelerometerWidget;
 import com.tractivity.golf.dk.tractivity.Widgets.GPSWidget;
 import com.jota.autocompletelocation.AutoCompleteLocation;
 
+import net.steamcrafted.lineartimepicker.dialog.LinearTimePickerDialog;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,16 +53,22 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
     private MovementInterpreter movementInterpreter;
     private TextView activityLabel;
     private TextView hurryLabel;
+    private Button setTimBtn;
     private AccelerometerWidget accelerometerWidget;
     private GPSWidget gpsWidget;
-    private boolean accStarted = false;
+    private Boolean accStarted = false;
 
+    private int remainingMinutes;
+    private int remaningDistance;
+    private int targetHour = 0;
+    private int targetMin = 0;
+    private String currentTransportationMethod;
 
     private List<Polyline> polylines;
     private LatLng start;
     private LatLng end;
 
-
+    Routing routing;
     MapView mapView;
     GoogleMap map;
 
@@ -66,6 +77,8 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         polylines = new ArrayList<>();
+        remainingMinutes = 0;
+        remaningDistance = 0;
 
         mapView = (MapView) findViewById(R.id.activity_start_map);
         mapView.onCreate(savedInstanceState);
@@ -76,12 +89,42 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
                 (AutoCompleteLocation) findViewById(R.id.autocomplete_location);
         autoCompleteLocation.setAutoCompleteTextListener(this);
 
-        TextView heading = (TextView) findViewById(R.id.activity_start_heading);
+        final int backgroundDark = ResourcesCompat.getColor(getResources(), R.color.background_dark, getTheme());
+        final int foregroundDark = ResourcesCompat.getColor(getResources(), R.color.foreground_dark, getTheme());
+        final int colorAccent = ResourcesCompat.getColor(getResources(), R.color.colorAccent, getTheme());
+
+
+        final LinearTimePickerDialog dialog = LinearTimePickerDialog.Builder.with(this)
+                .setDialogBackgroundColor(foregroundDark)
+                .setPickerBackgroundColor(backgroundDark)
+                .setLineColor(Color.argb(64, 255, 255, 255))
+                .setTextColor(Color.WHITE)
+                .setTextBackgroundColor(Color.argb(16, 255, 255, 255))
+                .setButtonCallback(new LinearTimePickerDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(DialogInterface dialog, int hour, int minutes) {
+                        targetHour = hour;
+                        targetMin = minutes;
+                    }
+
+                    @Override
+                    public void onNegative(DialogInterface dialog) {
+
+                    }
+                })
+                .build();
+
         activityLabel = (TextView) findViewById(R.id.activity_start_current_activity);
-        TextView hurry_heading = (TextView) findViewById(R.id.activity_start_hurry_heading);
         hurryLabel = (TextView) findViewById(R.id.activity_start_hurry_value);
 
-        Button stopActivity = (Button) findViewById(R.id.activity_start_activity_stop_btn);
+        setTimBtn = (Button) findViewById(R.id.activity_start_activity_arrival_btn);
+
+        setTimBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                dialog.show();
+            }
+
+        });
 
         try {
             movementInterpreter = new MovementInterpreter(this);
@@ -123,6 +166,7 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
                             Double speed = speeds.get(speeds.size() - 1);
                             try {
                                 String identifiedClass = movementInterpreter.classify(result, speed);
+                                currentTransportationMethod = identifiedClass;
                                 updateClassText(identifiedClass);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -195,8 +239,6 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.setMapType(1);
 
-
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -226,7 +268,7 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
             return;
         }
         start = new LatLng(gpsWidget.getmLastLocation().getLatitude(), gpsWidget.getmLastLocation().getLongitude());
-        Routing routing = new Routing.Builder()
+        routing = new Routing.Builder()
                 .travelMode(Routing.TravelMode.WALKING)
                 .withListener(this)
                 .waypoints(start, end)
@@ -254,7 +296,6 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
 
         map.moveCamera(center);
 
-
         if(polylines.size()>0) {
             for (Polyline poly : polylines) {
                 poly.remove();
@@ -264,9 +305,6 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
         polylines = new ArrayList<>();
         //add route(s) to the map.
         for (int i = 0; i <route.size(); i++) {
-
-            //In case of more than 5 alternative routes
-
             PolylineOptions polyOptions = new PolylineOptions();
             polyOptions.width(10 + i * 3);
             polyOptions.addAll(route.get(i).getPoints());
@@ -274,8 +312,8 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
             polylines.add(polyline);
 
             Toast.makeText(getApplicationContext(),"Route "+ (i+1) +": distance - "+ route.get(i).getDistanceValue()+": duration - "+ route.get(i).getDurationValue(),Toast.LENGTH_SHORT).show();
-
-            updateHurryText("distance - "+ route.get(i).getDistanceValue());
+            remainingMinutes = route.get(i).getDurationValue();
+            remainingMinutes = route.get(i).getDurationValue();
         }
 
         // Start marker

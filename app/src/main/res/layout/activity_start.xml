@@ -44,19 +44,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No.. You are in good time"
-        app:layout_constraintBottom_toTopOf="@+id/activity_start_activity_stop_btn"
+        app:layout_constraintBottom_toTopOf="@+id/activity_start_activity_arrival_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_start_hurry_heading" />
 
     <Button
-        android:id="@+id/activity_start_activity_stop_btn"
+        android:id="@+id/activity_start_activity_arrival_btn"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/holo_red_dark"
-        android:text="Button"
+        android:text="Set arrival time"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -84,4 +84,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="20dp" />
+
 </android.support.constraint.ConstraintLayout>
