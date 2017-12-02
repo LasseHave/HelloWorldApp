@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#5E5E5E"
+    android:background="@color/place_autocomplete_prediction_secondary_text"
     android:foregroundTint="@color/default_text"
     tools:context="com.tractivity.golf.dk.tractivity.MainActivity">
 
     <Button
         android:id="@+id/activity_main_calibrate_btn"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="167dp"
-        android:layout_height="145dp"
-        android:background="@mipmap/cal_btn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        android:layout_width="351dp"
+        android:layout_height="136dp"
+        android:background="@mipmap/calbtn"
+        android:text="               Calibration"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_main_start_btn"
@@ -25,10 +26,12 @@
 
     <Button
         android:id="@+id/activity_main_start_btn"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="353dp"
         android:layout_height="142dp"
-        android:background="@mipmap/start_btn"
+        android:background="@mipmap/startbtn"
+        android:text="               Can i make it?"
+        android:textColor="@color/cast_expanded_controller_text_color"
         app:layout_constraintBottom_toTopOf="@+id/activity_main_calibrate_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -37,14 +40,17 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="166dp"
-        android:layout_height="145dp"
-        android:background="@mipmap/info_btn"
+        style="@android:style/Widget.DeviceDefault.Light.Button.Inset"
+        android:layout_width="351dp"
+        android:layout_height="141dp"
+        android:background="@mipmap/infobtn"
+        android:text="               Information"
+        android:textColor="@color/cast_expanded_controller_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/activity_main_calibrate_btn"
-        app:layout_constraintTop_toBottomOf="@+id/activity_main_start_btn" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_calibrate_btn" />
 
 
 </android.support.constraint.ConstraintLayout>

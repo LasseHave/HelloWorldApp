@@ -17,6 +17,9 @@ public class Calibrate extends AppCompatActivity {
     private String[] items;
     private Spinner dropdown;
 
+    private Button start;
+    private Button stop;
+    private Button save;
 
 
     @Override
@@ -25,15 +28,16 @@ public class Calibrate extends AppCompatActivity {
         senAccelerometer = new AccelerometerWidget(this);
         setContentView(R.layout.activity_calibrate);
 
-        Button start = (Button) findViewById(R.id.activity_calibrate_start_btn2);
-        Button save = (Button) findViewById(R.id.activity_calibrate_save_btn);
-        Button stop = (Button) findViewById(R.id.activity_calibrate_stop_button);
+        start = (Button) findViewById(R.id.activity_calibrate_start_btn2);
+        save = (Button) findViewById(R.id.activity_calibrate_save_btn);
+        stop = (Button) findViewById(R.id.activity_calibrate_stop_button);
         dropdown = (Spinner)findViewById(R.id.calibrate_dropdown);
-        items = new String[]{"walking", "running", "standing", "biking"};
+        items = new String[]{"Select a activity", "walking", "running", "standing", "biking"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
+        dropdown.setSelection(0);
 
-
+        getSupportActionBar().setTitle("Calibrate");
 
         save.setClickable(senAccelerometer.ReadyForSave);
 
@@ -68,14 +72,20 @@ public class Calibrate extends AppCompatActivity {
     private void startClick() {
         fileAggregator.createArff(items[dropdown.getSelectedItemPosition()], this);
         senAccelerometer.startSensors();
+        save.setEnabled(false);
+        dropdown.setEnabled(false);
+
 
     }
 
     private void stopClick() {
         senAccelerometer.stopSensors();
-        senAccelerometer.reset();
+        //senAccelerometer.reset();
         Toast.makeText(this,
                 "Sensors stopped and reset",
                 Toast.LENGTH_SHORT).show();
+
+        save.setEnabled(true);
+        dropdown.setEnabled(true);
     }
 }

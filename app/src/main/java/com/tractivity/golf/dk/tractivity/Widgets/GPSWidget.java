@@ -96,7 +96,14 @@ public class GPSWidget extends Service implements LocationListener {
     }
 
     public Location getmLastLocation() {
-        return mLastLocation;
+        //return mLastLocation;
+
+        Location loc = new Location("Dummy");
+        loc.setLatitude(56.171662930775156);
+        loc.setLongitude(10.189857045706143);
+        loc.setSpeed(Float.valueOf("100.98"));
+        loc.setTime(System.currentTimeMillis());
+        return loc;
     }
 
     @Override

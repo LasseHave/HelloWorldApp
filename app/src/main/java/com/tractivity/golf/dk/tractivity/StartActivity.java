@@ -18,6 +18,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -44,6 +46,8 @@ import com.jota.autocompletelocation.AutoCompleteLocation;
 
 import net.steamcrafted.lineartimepicker.dialog.LinearTimePickerDialog;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,23 +58,27 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class StartActivity extends AppCompatActivity implements OnMapReadyCallback, AutoCompleteLocation.AutoCompleteLocationListener, RoutingListener {
     private MovementInterpreter movementInterpreter;
     private TextView activityLabel;
     private TextView hurryLabel;
+    private TextView speedLabel;
     private Button setTimBtn;
+    private ImageView image;
     private AccelerometerWidget accelerometerWidget;
     private GPSWidget gpsWidget;
     private Boolean accStarted = false;
 
     private double remainingMinutes;
-    private double remaningDistance;
+    private double remainingDistance;
     private Date targetDate;
     private int targetHour = 0;
     private int targetMin = 0;
 
     private String currentTransportationMethod;
+    private LinearTimePickerDialog dialog;
 
     private List<Polyline> polylines;
     private LatLng start;
@@ -80,18 +88,22 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
     MapView mapView;
     GoogleMap map;
 
+
+    Handler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         polylines = new ArrayList<>();
         remainingMinutes = 0;
-        remaningDistance = 0;
+        remainingDistance = 0;
 
         mapView = (MapView) findViewById(R.id.activity_start_map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
+        handler = new Handler();
 
         AutoCompleteLocation autoCompleteLocation =
                 (AutoCompleteLocation) findViewById(R.id.autocomplete_location);
@@ -101,8 +113,9 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
         final int foregroundDark = ResourcesCompat.getColor(getResources(), R.color.foreground_dark, getTheme());
         final int colorAccent = ResourcesCompat.getColor(getResources(), R.color.colorAccent, getTheme());
 
+        getSupportActionBar().setTitle("Can i make it?");
 
-        final LinearTimePickerDialog dialog = LinearTimePickerDialog.Builder.with(this)
+        dialog = LinearTimePickerDialog.Builder.with(this)
                 .setDialogBackgroundColor(foregroundDark)
                 .setPickerBackgroundColor(backgroundDark)
                 .setLineColor(Color.argb(64, 255, 255, 255))
@@ -117,6 +130,7 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
                         targetDate = c.getTime();
                         targetHour = hour;
                         targetMin = minutes;
+                        updateArrivalText(targetHour, targetMin);
                     }
 
                     @Override
@@ -127,7 +141,13 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
                 .build();
 
         activityLabel = (TextView) findViewById(R.id.activity_start_current_activity);
+        activityLabel.setText("Standing");
         hurryLabel = (TextView) findViewById(R.id.activity_start_hurry_value);
+        hurryLabel.setText("");
+        speedLabel = (TextView) findViewById(R.id.activity_start_speed);
+
+        image = findViewById(R.id.activity_start_image);
+        image.setImageResource(R.mipmap.standing);
 
         setTimBtn = (Button) findViewById(R.id.activity_start_activity_arrival_btn);
 
@@ -161,7 +181,6 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     public void updateActivity() {
-        final Handler handler = new Handler();
 
         Timer timer = new Timer();
 
@@ -179,6 +198,7 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
                             try {
                                 String identifiedClass = movementInterpreter.classify(result, speed);
                                 currentTransportationMethod = identifiedClass;
+                                updateSpeedText(speed);
                                 updateClassText(identifiedClass);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -191,12 +211,54 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     public void updateClassText(String identifiedClass) {
-        activityLabel.setText("Right now you are: " + identifiedClass);
+        if(identifiedClass == "standing"){
+            image.setImageResource(R.mipmap.walking);
+            activityLabel.setText("Standing");
+            return;
+
+        }
+        else if (identifiedClass == "walking"){
+            image.setImageResource(R.mipmap.walking);
+            activityLabel.setText("Walking");
+            return;
+
+        }
+        else if (identifiedClass == "running"){
+            image.setImageResource(R.mipmap.running);
+            activityLabel.setText("Running");
+            return;
+        }
+        else if (identifiedClass == "biking"){
+            image.setImageResource(R.mipmap.biking);
+            activityLabel.setText("Biking");
+            return;
+        }
+
+
     }
 
     public void updateHurryText(String hurry) {
         hurryLabel.setText(hurry);
     }
+
+    public void updateSpeedText(Double speed) {
+        speedLabel.setText(String.format("%.2f",speed) + "\nkm/h");
+    }
+
+    public void updateArrivalText(int hour, int minute){
+        if(minute < 10){
+            if(minute == 0){
+                setTimBtn.setText("Arrival Time: " + String.valueOf(hour) + ":" + String.valueOf(minute) + "0");
+            }
+            else{
+                setTimBtn.setText("Arrival Time: " + String.valueOf(hour) + ":0" + String.valueOf(minute));
+            }
+        }
+        else{
+            setTimBtn.setText("Arrival Time: " + String.valueOf(hour) + ":" + String.valueOf(minute));
+        }
+    }
+
 
     private void askUserForPermissionToUseGps() {
         if (ContextCompat.checkSelfPermission(this,
@@ -210,7 +272,6 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
                         1);
             }
         } else {
-            //We have permission!
             startSpeedSensing();
         }
     }
@@ -241,7 +302,7 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
                 accStarted = true;
             }
             String speed = intent.getStringExtra("speed");
-            updateHurryText(speed);
+            // updateHurryText(speed);
         }
     };
 
@@ -270,8 +331,7 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onItemSelected(Place selectedPlace) {
         end= selectedPlace.getLatLng();
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(selectedPlace.getLatLng(), 17);
-        map.animateCamera(cameraUpdate);
+
         map.addMarker(new MarkerOptions().position(end));
 
         if (gpsWidget.getmLastLocation() == null) {
@@ -280,13 +340,24 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
             return;
         }
         start = new LatLng(gpsWidget.getmLastLocation().getLatitude(), gpsWidget.getmLastLocation().getLongitude());
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(selectedPlace.getLatLng());
+        builder.include(new LatLng(gpsWidget.getmLastLocation().getLatitude(), gpsWidget.getmLastLocation().getLongitude()));
+
+        LatLngBounds bounds = builder.build();
+
+        int padding = 50;
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+        map.animateCamera(cu);
+
         routing = new Routing.Builder()
                 .travelMode(Routing.TravelMode.WALKING)
                 .withListener(this)
                 .waypoints(start, end)
                 .build();
         routing.execute();
-
 
     }
 
@@ -303,11 +374,6 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex)
     {
-        CameraUpdate center = CameraUpdateFactory.newLatLng(start);
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(16);
-
-        map.moveCamera(center);
-
         if(polylines.size()>0) {
             for (Polyline poly : polylines) {
                 poly.remove();
@@ -325,7 +391,17 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
 
             Toast.makeText(getApplicationContext(),"Route "+ (i+1) +": distance - "+ route.get(i).getDistanceValue()+": duration - "+ route.get(i).getDurationValue(),Toast.LENGTH_SHORT).show();
             remainingMinutes = route.get(i).getDurationValue();
-            remainingMinutes = route.get(i).getDurationValue();
+            remainingDistance = route.get(i).getDistanceValue();
+
+            // Start marker
+            MarkerOptions options = new MarkerOptions();
+            options.position(start);
+            map.addMarker(options);
+
+            // End marker
+            options = new MarkerOptions();
+            options.position(end);
+            map.addMarker(options);
 
             Timer t = new Timer();
             t.scheduleAtFixedRate(new TimerTask() {
@@ -339,20 +415,8 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
                     }
                 }
 
-            }, 0, 10000);
+            }, 0, 5000);
         }
-
-        // Start marker
-        MarkerOptions options = new MarkerOptions();
-        options.position(start);
-        map.addMarker(options);
-
-        // End marker
-        options = new MarkerOptions();
-        options.position(end);
-        map.addMarker(options);
-
-
     }
 
     @Override
@@ -362,35 +426,33 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
 
     public void calculateRemainingTime() throws ParseException {
         Location lastLoc = gpsWidget.getmLastLocation();
-        double lastRecSpeed = lastLoc.getSpeed() * 0.27777; //to m/s
-        remaningDistance = remaningDistance - (lastRecSpeed * 10);
-        Calendar calendar = new GregorianCalendar();
-
-        calendar.setTimeInMillis(lastLoc.getTime());
+        final double lastRecSpeed = lastLoc.getSpeed() * 0.27777; //to m/s
+        remainingDistance = remainingDistance - (lastRecSpeed * 5);
 
         Date lastDate = new Date();
         lastDate.setTime(lastLoc.getTime());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         long difference = targetDate.getTime() - lastDate.getTime();
-        if(difference<0)
-        {
-            Date dateMax = simpleDateFormat.parse("24:00");
-            Date dateMin = simpleDateFormat.parse("00:00");
-            difference=(dateMax.getTime() - lastDate.getTime() )+(targetDate.getTime()-dateMin.getTime());
-        }
+        long minutes = TimeUnit.MINUTES.convert(difference, TimeUnit.MILLISECONDS);
 
-        int hours = (int) ((difference - (1000*60*60*24)) / (1000*60*60));
-        int min = (int) (difference - (1000*60*60*24) - (1000*60*60*hours)) / (1000*60);
+        final double targetSpeed = remainingDistance / (minutes * 60);
 
-        double targetSpeed = remainingMinutes / min;
-
-        if (targetSpeed > lastRecSpeed){
-            updateHurryText("You need to hurry!!!");
-        }
-        else{
-            updateHurryText("Right now you're fine.");
-        }
-
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (targetSpeed > (lastRecSpeed *3.6)){
+                        setTimBtn.setBackgroundColor(Color.RED);
+                        updateHurryText("Run faster or steal a bike!");
+                    }
+                    else{
+                        setTimBtn.setBackgroundColor(Color.GREEN);
+                        updateHurryText("Keep on going");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
-
 }
+

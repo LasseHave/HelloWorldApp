@@ -4,85 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_dark"
     tools:context="com.tractivity.golf.dk.tractivity.StartActivity">
 
     <TextView
-        android:id="@+id/activity_start_heading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="What you are currently doing!"
-        app:layout_constraintBottom_toTopOf="@+id/activity_start_current_activity"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/activity_start_speed"
+        android:layout_width="175dp"
+        android:layout_height="126dp"
+        android:text="0.0\nkm/h"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toTopOf="@+id/activity_start_hurry_value"
+        app:layout_constraintEnd_toStartOf="@+id/activity_start_image"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_start_map" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_start_activity_arrival_btn" />
 
     <TextView
         android:id="@+id/activity_start_current_activity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="walking"
-        app:layout_constraintBottom_toTopOf="@+id/activity_start_hurry_heading"
+        android:layout_width="164dp"
+        android:layout_height="45dp"
+        android:text="CurrentAct"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_start_hurry_value"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_start_heading" />
+        app:layout_constraintStart_toEndOf="@+id/activity_start_speed"
+        app:layout_constraintTop_toBottomOf="@+id/activity_start_image" />
 
     <TextView
-        android:id="@+id/activity_start_hurry_heading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Do you need to hurry?"
-        app:layout_constraintBottom_toTopOf="@+id/activity_start_hurry_value"
+        android:id="@+id/activity_start_hurry_value"
+        android:layout_width="346dp"
+        android:layout_height="22dp"
+        android:text="message for @string/mr_user_route_category_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_start_current_activity" />
 
-    <TextView
-        android:id="@+id/activity_start_hurry_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No.. You are in good time"
+    <Button
+        android:id="@+id/activity_start_activity_arrival_btn"
+        style="@android:style/Widget.DeviceDefault.Light.Button.Inset"
+        android:layout_width="350dp"
+        android:layout_height="48dp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:text="Set arrival time"
+        app:layout_constraintBottom_toTopOf="@+id/activity_start_speed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_start_map" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/activity_start_map"
+        android:layout_width="382dp"
+        android:layout_height="195dp"
         app:layout_constraintBottom_toTopOf="@+id/activity_start_activity_arrival_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_start_hurry_heading" />
-
-    <Button
-        android:id="@+id/activity_start_activity_arrival_btn"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/holo_red_dark"
-        android:text="Set arrival time"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_start_hurry_value" />
-
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/activity_start_map"
-        android:layout_width="383dp"
-        android:layout_height="221dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintTop_toBottomOf="@+id/autocomplete_location" />
 
     <com.jota.autocompletelocation.AutoCompleteLocation
         android:id="@+id/autocomplete_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_width="376dp"
+        android:layout_height="46dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_start_map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="20dp" />
+    <ImageView
+        android:id="@+id/activity_start_image"
+        android:layout_width="165dp"
+        android:layout_height="77dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_start_current_activity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/activity_start_speed"
+        app:layout_constraintTop_toBottomOf="@+id/activity_start_activity_arrival_btn"
+        app:srcCompat="@mipmap/biking" />
 
 </android.support.constraint.ConstraintLayout>
