@@ -1,8 +1,7 @@
 package com.helloworld.golf.dk.helloworld.Aggregators;
+
 import com.helloworld.golf.dk.helloworld.Models.Acceleration;
-import com.helloworld.golf.dk.helloworld.Models.LocationObj;
 import com.helloworld.golf.dk.helloworld.Models.StatisticsData;
-import com.helloworld.golf.dk.helloworld.Widgets.GPSWidget;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
@@ -17,7 +16,7 @@ public class MovementAggregator {
 
     public double lastSpeed;
 
-    private static MovementAggregator singleton = new MovementAggregator( );
+    private static MovementAggregator singleton = new MovementAggregator();
 
     /* A private Constructor prevents any other
      * class from instantiating.
@@ -28,7 +27,7 @@ public class MovementAggregator {
     }
 
     /* Static 'instance' method */
-    public static MovementAggregator getInstance( ) {
+    public static MovementAggregator getInstance() {
         return singleton;
     }
 
@@ -48,29 +47,20 @@ public class MovementAggregator {
 
     public void processData(List<Acceleration> dataToProcess) {
 
-        for(int i = 0; i < 3; i++) { // Calc stat for each acceleration axis
+        double[] norms = new double[dataToProcess.size()];
 
-            statistics = new DescriptiveStatistics(readyForStat(dataToProcess, i));
-
-            StatisticsData tempResult = new StatisticsData(
-                    (float) statistics.getMin(),
-                    (float) statistics.getMax(),
-                    (float) statistics.getMean(),
-                    (float) statistics.getStandardDeviation());
-            results.add(tempResult);
-            locationObjs.add(lastSpeed);
+        for (int i = 0; i < dataToProcess.size(); i++) {
+            norms[i] = (Math.sqrt(Math.pow(dataToProcess.get(i).getX(), 2) + Math.pow(dataToProcess.get(i).getY(), 2) + Math.pow(dataToProcess.get(i).getZ(), 2)));
         }
-    }
+        statistics = new DescriptiveStatistics(norms);
 
-    private double[] readyForStat(List<Acceleration> input, int index)
-    {
-        double[] output = new double[input.size()];
-
-        for (int i = 0; i < input.size(); i++)
-        {
-            output[i] = input.get(i).toDoubleArray()[index];
-        }
-        return output;
+        StatisticsData tempResult = new StatisticsData(
+                (float) statistics.getMin(),
+                (float) statistics.getMax(),
+                (float) statistics.getMean(),
+                (float) statistics.getStandardDeviation());
+        results.add(tempResult);
+        locationObjs.add(lastSpeed);
     }
 
 }
