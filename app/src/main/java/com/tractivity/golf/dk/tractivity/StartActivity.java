@@ -212,7 +212,7 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
 
     public void updateClassText(String identifiedClass) {
         if(identifiedClass == "standing"){
-            image.setImageResource(R.mipmap.walking);
+            image.setImageResource(R.mipmap.standing);
             activityLabel.setText("Standing");
             return;
 
